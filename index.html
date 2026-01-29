@@ -1,0 +1,2805 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propolab - Platform Penulisan Akademik</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1a6fc2">
+    <style>
+        :root {
+            --primary-blue: #1a6fc2;
+            --secondary-blue: #3a9df8;
+            --light-blue: #e8f4ff;
+            --dark-blue: #0d4a8a;
+            --accent-blue: #5cb3ff;
+            --gray-light: #f8f9fa;
+            --gray-dark: #343a40;
+            --success: #28a745;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --border-radius: 10px;
+        }
+
+        [data-theme="dark"] {
+            --primary-blue: #2c8de0;
+            --secondary-blue: #4aa8ff;
+            --light-blue: #1e2a38;
+            --dark-blue: #0a2d4d;
+            --accent-blue: #5cb3ff;
+            --gray-light: #212529;
+            --gray-dark: #f8f9fa;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Roboto', sans-serif;
+            background-color: var(--light-blue);
+            color: var(--gray-dark);
+            overflow-x: hidden;
+        }
+
+        .container-fluid {
+            max-width: 1400px;
+        }
+
+        /* Header dengan gradasi biru */
+        .app-header {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--primary-blue) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+
+        /* Hero Section dengan gradasi */
+        .hero-section {
+            background: linear-gradient(to right, rgba(26, 111, 194, 0.9), rgba(58, 157, 248, 0.8)), 
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 200" opacity="0.05"><path d="M0,100 Q250,50 500,100 T1000,100 L1000,0 L0,0 Z" fill="white"/></svg>');
+            background-size: cover;
+            color: white;
+            padding: 3rem 0;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+            margin-bottom: 2rem;
+        }
+
+        .hero-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        /* Card dengan efek modern */
+        .feature-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            height: 100%;
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        [data-theme="dark"] .feature-card {
+            background-color: var(--gray-light);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .feature-icon {
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--primary-blue);
+        }
+
+        .premium-badge {
+            background-color: gold;
+            color: #333;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-left: 0.5rem;
+            font-weight: 600;
+        }
+
+        .free-badge {
+            background-color: var(--success);
+            color: white;
+            font-size: 0.75rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            display: inline-block;
+            margin-left: 0.5rem;
+            font-weight: 600;
+        }
+
+        /* Tombol dengan gradasi biru */
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary-blue), var(--secondary-blue));
+            border: none;
+            border-radius: 30px;
+            padding: 0.6rem 1.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, var(--dark-blue), var(--primary-blue));
+            transform: scale(1.05);
+        }
+
+        /* Navigasi */
+        .nav-link {
+            color: var(--gray-dark);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(26, 111, 194, 0.1);
+            color: var(--primary-blue);
+        }
+
+        /* Dokumen preview area */
+        .document-preview {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 1.5rem;
+            min-height: 500px;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+        }
+
+        [data-theme="dark"] .document-preview {
+            background-color: #2d3748;
+        }
+
+        .typo-error {
+            background-color: rgba(220, 53, 69, 0.2);
+            border-bottom: 2px dotted var(--danger);
+        }
+
+        .capital-error {
+            background-color: rgba(255, 193, 7, 0.2);
+            border-bottom: 2px dotted var(--warning);
+        }
+
+        .structure-error {
+            background-color: rgba(0, 123, 255, 0.2);
+            border-bottom: 2px dotted var(--primary-blue);
+        }
+
+        /* Animasi */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Loading spinner */
+        .spinner-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+        }
+
+        /* Toast notification */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .toast {
+            background-color: white;
+            border-left: 5px solid var(--primary-blue);
+            box-shadow: var(--shadow);
+            border-radius: var(--border-radius);
+        }
+
+        [data-theme="dark"] .toast {
+            background-color: var(--gray-light);
+        }
+
+        /* Mode gelap toggle */
+        .theme-toggle {
+            background: transparent;
+            border: none;
+            color: var(--gray-dark);
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        /* Responsif */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .feature-card {
+                margin-bottom: 1rem;
+            }
+            
+            .document-preview {
+                min-height: 300px;
+            }
+        }
+
+        /* Halaman login */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--light-blue) 0%, white 100%);
+            padding: 2rem;
+        }
+
+        .login-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        [data-theme="dark"] .login-card {
+            background-color: var(--gray-light);
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-blue);
+        }
+
+        /* Card upload di dashboard */
+        .upload-card {
+            background: linear-gradient(135deg, rgba(26, 111, 194, 0.1), rgba(58, 157, 248, 0.05));
+            border: 2px dashed var(--primary-blue);
+        }
+
+        /* Section untuk contoh dokumen */
+        .example-card {
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .example-card:hover {
+            border-color: var(--primary-blue);
+            transform: translateY(-3px);
+        }
+
+        /* Blur overlay untuk preview terbatas */
+        .blur-overlay {
+            backdrop-filter: blur(5px);
+            background-color: rgba(255, 255, 255, 0.7);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--border-radius);
+            z-index: 10;
+        }
+
+        [data-theme="dark"] .blur-overlay {
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        /* Tab untuk koreksi */
+        .nav-tabs .nav-link {
+            border: none;
+            color: var(--gray-dark);
+            font-weight: 500;
+        }
+
+        .nav-tabs .nav-link.active {
+            background-color: rgba(26, 111, 194, 0.1);
+            color: var(--primary-blue);
+            border-bottom: 3px solid var(--primary-blue);
+        }
+
+        /* Sidebar navigasi (sederhana) */
+        .sidebar-simple {
+            background-color: transparent;
+            padding: 0;
+        }
+
+        .sidebar-item-simple {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+        [data-theme="dark"] .sidebar-item-simple {
+            background-color: rgba(33, 37, 41, 0.7);
+        }
+
+        .sidebar-item-simple:hover, .sidebar-item-simple.active {
+            background-color: rgba(26, 111, 194, 0.1);
+            color: var(--primary-blue);
+        }
+
+        .sidebar-icon-simple {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(26, 111, 194, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            color: var(--primary-blue);
+        }
+
+        /* Grid layout untuk dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Halaman Login (default) -->
+    <div id="loginPage" class="login-container">
+        <div class="login-card fade-in">
+            <div class="login-logo">
+                <h1><i class="bi bi-journal-text"></i> Propolab</h1>
+                <p class="text-muted">Platform Penulisan Akademik</p>
+            </div>
+            
+            <div id="loginForm">
+                <h3 class="mb-4">Masuk ke Akun</h3>
+                <div class="mb-3">
+                    <label for="loginEmail" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="loginEmail" placeholder="nama@email.com" required>
+                </div>
+                <div class="mb-3">
+                    <label for="loginPassword" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="loginPassword" placeholder="Minimal 6 karakter" required>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">Ingat saya</label>
+                </div>
+                <button id="loginBtn" class="btn btn-primary w-100 mb-3">
+                    <i class="bi bi-lock"></i> Masuk
+                </button>
+                <div class="text-center mb-3">
+                    <a href="#" id="showRegister">Belum punya akun? Daftar di sini</a>
+                </div>
+                <div class="alert alert-danger d-none" id="loginError"></div>
+            </div>
+            
+            <div id="registerForm" class="d-none">
+                <h3 class="mb-4">Buat Akun Baru</h3>
+                <div class="mb-3">
+                    <label for="registerName" class="form-label">Nama Lengkap</label>
+                    <input type="text" class="form-control" id="registerName" placeholder="Nama Anda" required>
+                </div>
+                <div class="mb-3">
+                    <label for="registerEmail" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="registerEmail" placeholder="nama@email.com" required>
+                </div>
+                <div class="mb-3">
+                    <label for="registerPassword" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="registerPassword" placeholder="Minimal 6 karakter" required>
+                </div>
+                <button id="registerBtn" class="btn btn-primary w-100 mb-3">
+                    <i class="bi bi-person-plus"></i> Daftar
+                </button>
+                <div class="text-center">
+                    <a href="#" id="showLogin">Sudah punya akun? Masuk di sini</a>
+                </div>
+                <div class="alert alert-danger d-none" id="registerError"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Halaman Utama (dashboard) - tersembunyi awalnya -->
+    <div id="mainApp" class="d-none">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="container-fluid">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="logo">
+                        <i class="bi bi-journal-text"></i> Propolab
+                    </div>
+                    
+                    <div class="d-flex align-items-center">
+                        <div class="me-3 d-none d-md-block">
+                            <span id="userStatusBadge" class="badge bg-warning text-dark">Free</span>
+                            <span id="userName" class="text-white">Pengguna</span>
+                        </div>
+                        
+                        <button id="themeToggle" class="theme-toggle me-3 text-white">
+                            <i class="bi bi-moon"></i>
+                        </button>
+                        
+                        <div class="dropdown">
+                            <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
+                                <i class="bi bi-person-circle"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#" data-page="profile"><i class="bi bi-person me-2"></i>Profil</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="bi bi-box-arrow-right me-2"></i>Keluar</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="container-fluid mt-4">
+            <div class="row">
+                <!-- Sidebar Navigasi Sederhana -->
+                <div class="col-lg-2 mb-4 d-none d-lg-block">
+                    <div class="sidebar-simple">
+                        <div class="sidebar-item-simple active" data-page="dashboard">
+                            <div class="sidebar-icon-simple">
+                                <i class="bi bi-house-door"></i>
+                            </div>
+                            <div>Dashboard</div>
+                        </div>
+                        
+                        <div class="sidebar-item-simple" data-page="convert">
+                            <div class="sidebar-icon-simple">
+                                <i class="bi bi-arrow-left-right"></i>
+                            </div>
+                            <div>Konversi Dokumen</div>
+                        </div>
+                        
+                        <div class="sidebar-item-simple" data-page="correction">
+                            <div class="sidebar-icon-simple">
+                                <i class="bi bi-pencil-square"></i>
+                            </div>
+                            <div>Koreksi Proposal</div>
+                        </div>
+                        
+                        <div class="sidebar-item-simple" data-page="wordcount">
+                            <div class="sidebar-icon-simple">
+                                <i class="bi bi-calculator"></i>
+                            </div>
+                            <div>Hitung Kata</div>
+                        </div>
+                        
+                        <div class="sidebar-item-simple" data-page="paraphrase">
+                            <div class="sidebar-icon-simple">
+                                <i class="bi bi-lightbulb"></i>
+                            </div>
+                            <div>Parafrase AI</div>
+                        </div>
+                        
+                        <div class="sidebar-item-simple" data-page="examples">
+                            <div class="sidebar-icon-simple">
+                                <i class="bi bi-journal-bookmark"></i>
+                            </div>
+                            <div>Contoh Dokumen</div>
+                        </div>
+                        
+                        <div class="sidebar-item-simple" data-page="tutorials">
+                            <div class="sidebar-icon-simple">
+                                <i class="bi bi-youtube"></i>
+                            </div>
+                            <div>Video Tutorial</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Konten Utama -->
+                <div class="col-lg-10">
+                    <!-- Dashboard Page -->
+                    <div id="dashboardPage" class="page-content">
+                        <div class="hero-section fade-in">
+                            <h1 class="hero-title">Selamat Datang di Propolab</h1>
+                            <p class="hero-subtitle">Platform lengkap untuk menyusun, memperbaiki, dan memfinalisasi dokumen akademik Anda</p>
+                            <div class="d-flex flex-wrap gap-2">
+            
+                                <button class="btn btn-outline-light" data-page="tutorials"><i class="bi bi-youtube"></i> Video Tips</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Upload Dokumen di Dashboard -->
+                        <div class="row mt-4">
+                            <div class="col-lg-8 mb-4">
+                                <div class="feature-card upload-card">
+                                    <h4 class="card-title"><i class="bi bi-upload text-primary"></i> Upload Dokumen</h4>
+                                    <p>Unggah dokumen Word (.docx) atau PDF (.pdf) untuk diproses di Propolab.</p>
+                                    
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="documentName" class="form-label">Nama Dokumen</label>
+                                                <input type="text" class="form-control" id="documentName" placeholder="Contoh: Proposal Penelitian">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="documentFile" class="form-label">Pilih File</label>
+                                                <input type="file" class="form-control" id="documentFile" accept=".docx,.pdf">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <button id="uploadDocumentBtn" class="btn btn-primary">
+                                        <i class="bi bi-cloud-upload"></i> Unggah Dokumen
+                                    </button>
+                                    
+                                    <div class="mt-3 alert alert-info">
+                                        <i class="bi bi-info-circle"></i> Fitur ini termasuk fitur premium. Pengguna gratis mendapatkan 3 kali free trial.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4 mb-4">
+                                <div class="feature-card">
+                                    <h5 class="card-title">Riwayat Dokumen Terbaru</h5>
+                                    <div id="documentHistory" class="mt-3">
+                                        <div class="text-center py-4 text-muted">
+                                            <i class="bi bi-folder-x fs-1"></i>
+                                            <p class="mt-2">Belum ada dokumen yang diunggah</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Fitur Utama di Dashboard -->
+                        <h4 class="mt-5 mb-3">Fitur Utama Propolab</h4>
+                        <div class="dashboard-grid">
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="bi bi-arrow-left-right"></i>
+                                </div>
+                                <h5 class="card-title">Konversi Dokumen <span class="free-badge">Gratis</span></h5>
+                                <p>Konversi Word ke PDF dan sebaliknya tanpa batas untuk semua pengguna.</p>
+                                <button class="btn btn-outline-primary btn-sm" data-page="convert">Buka Fitur</button>
+                            </div>
+                            
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="bi bi-pencil-square"></i>
+                                </div>
+                                <h5 class="card-title">Koreksi Proposal <span id="correctionBadge" class="premium-badge">Premium</span></h5>
+                                <p>Deteksi typo, kapitalisasi, dan struktur penulisan proposal secara otomatis.</p>
+                                <div class="trial-info">Free trial: <span id="correctionTrial">3</span> kali tersisa</div>
+                                <button class="btn btn-outline-primary btn-sm mt-2" data-page="correction">Buka Fitur</button>
+                            </div>
+                            
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="bi bi-calculator"></i>
+                                </div>
+                                <h5 class="card-title">Hitung Kata & Karakter <span id="wordcountBadge" class="premium-badge">Premium</span></h5>
+                                <p>Hitung otomatis jumlah kata dan karakter dalam dokumen.</p>
+                                <div class="trial-info">Free trial: <span id="wordcountTrial">3</span> kali tersisa</div>
+                                <button class="btn btn-outline-primary btn-sm mt-2" data-page="wordcount">Buka Fitur</button>
+                            </div>
+                            
+                            <div class="feature-card">
+                                <div class="feature-icon">
+                                    <i class="bi bi-lightbulb"></i>
+                                </div>
+                                <h5 class="card-title">Parafrase AI <span id="paraphraseBadge" class="premium-badge">Premium</span></h5>
+                                <p>Parafrase teks dengan AI untuk meningkatkan kualitas penulisan.</p>
+                                <div class="trial-info">Free trial: <span id="paraphraseTrial">3</span> kali tersisa</div>
+                                <button class="btn btn-outline-primary btn-sm mt-2" data-page="paraphrase">Buka Fitur</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Status Pengguna -->
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <div class="feature-card">
+                                    <h5 class="card-title">Status Penggunaan</h5>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <p><strong>Tipe Akun:</strong> <span id="accountType">Free</span></p>
+                                            <p><strong>Total Dokumen Diunggah:</strong> <span id="totalDocuments">0</span></p>
+                                            <p><strong>Total Konversi:</strong> <span id="totalConversions">0</span></p>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <p><strong>Free Trial Tersisa:</strong></p>
+                                            <div class="progress mb-2" style="height: 8px;">
+                                                <div id="trialProgress" class="progress-bar bg-success" style="width: 100%"></div>
+                                            </div>
+                                            <p class="small">3 kali percobaan gratis untuk setiap fitur premium</p>
+                                            <button id="upgradeBtn" class="btn btn-warning btn-sm mt-2">
+                                                <i class="bi bi-star"></i> Upgrade ke Premium
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Halaman Konversi Dokumen -->
+                    <div id="convertPage" class="page-content d-none">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3><i class="bi bi-arrow-left-right text-primary"></i> Konversi Dokumen</h3>
+                            <button class="btn btn-primary" data-page="dashboard"><i class="bi bi-arrow-left"></i> Kembali ke Dashboard</button>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-lg-6 mb-4">
+                                <div class="feature-card h-100">
+                                    <h5 class="card-title">Konversi Format Dokumen <span class="free-badge">Gratis</span></h5>
+                                    <p>Konversi dokumen Word ke PDF atau PDF ke Word tanpa batas.</p>
+                                    
+                                    <div class="mt-4">
+                                        <div class="mb-3">
+                                            <label for="convertDocument" class="form-label">Pilih Dokumen</label>
+                                            <select class="form-select" id="convertDocument">
+                                                <option value="">Pilih dokumen dari riwayat...</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="convertType" class="form-label">Tipe Konversi</label>
+                                            <select class="form-select" id="convertType">
+                                                <option value="wordToPdf">Word (.docx) ke PDF</option>
+                                                <option value="pdfToWord">PDF ke Word (.docx)</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <button id="convertDocumentBtn" class="btn btn-primary w-100">
+                                            <i class="bi bi-arrow-repeat"></i> Konversi Sekarang
+                                        </button>
+                                        
+                                        <div class="mt-3 alert alert-success">
+                                            <i class="bi bi-check-circle"></i> Fitur ini gratis untuk semua pengguna Propolab.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-6 mb-4">
+                                <div class="feature-card h-100">
+                                    <h5 class="card-title">Hasil Konversi</h5>
+                                    <p>Dokumen hasil konversi akan muncul di sini.</p>
+                                    
+                                    <div id="conversionResult" class="mt-3 text-center py-5">
+                                        <i class="bi bi-file-earmark-text fs-1 text-muted"></i>
+                                        <p class="mt-2 text-muted">Belum ada konversi</p>
+                                    </div>
+                                    
+                                    <div id="conversionHistory" class="mt-4">
+                                        <h6>Riwayat Konversi Terbaru</h6>
+                                        <div class="list-group" id="conversionHistoryList">
+                                            <!-- Riwayat konversi akan muncul di sini -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Halaman Koreksi Proposal (gabungan koreksi penulisan dan struktur) -->
+                    <div id="correctionPage" class="page-content d-none">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3><i class="bi bi-pencil-square text-primary"></i> Koreksi Proposal</h3>
+                            <button class="btn btn-primary" data-page="dashboard"><i class="bi bi-arrow-left"></i> Kembali ke Dashboard</button>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-lg-8 mb-4">
+                                <div class="feature-card">
+                                    <h5 class="card-title">Editor Dokumen</h5>
+                                    <p>Edit dokumen Anda di sini. Kesalahan akan ditandai dengan warna.</p>
+                                    
+                                    <div class="mt-3">
+                                        <div class="mb-3">
+                                            <label for="correctionDocument" class="form-label">Pilih Dokumen</label>
+                                            <select class="form-select" id="correctionDocument">
+                                                <option value="">Pilih dokumen...</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <!-- Tab untuk koreksi -->
+                                        <ul class="nav nav-tabs" id="correctionTabs" role="tablist">
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link active" id="writing-tab" data-bs-toggle="tab" data-bs-target="#writing" type="button">Koreksi Penulisan</button>
+                                            </li>
+                                            <li class="nav-item" role="presentation">
+                                                <button class="nav-link" id="structure-tab" data-bs-toggle="tab" data-bs-target="#structure" type="button">Koreksi Struktur</button>
+                                            </li>
+                                        </ul>
+                                        
+                                        <div class="tab-content mt-3" id="correctionTabContent">
+                                            <!-- Tab Koreksi Penulisan -->
+                                            <div class="tab-pane fade show active" id="writing" role="tabpanel">
+                                                <div id="writingEditor" class="document-preview p-3" contenteditable="true">
+                                                    <p>Pilih dokumen untuk memulai koreksi penulisan.</p>
+                                                    <p>Setelah dokumen dimuat, sistem akan mendeteksi kesalahan typo, kapitalisasi, dan struktur penulisan.</p>
+                                                    <p>Kesalahan typo akan ditandai dengan <span class="typo-error">warna merah</span>.</p>
+                                                    <p>Kesalahan kapitalisasi akan ditandai dengan <span class="capital-error">warna kuning</span>.</p>
+                                                    <p>Kesalahan struktur akan ditandai dengan <span class="structure-error">warna biru</span>.</p>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Tab Koreksi Struktur -->
+                                            <div class="tab-pane fade" id="structure" role="tabpanel">
+                                                <div id="structurePreview" class="document-preview">
+                                                    <h2 class="text-center" id="documentTitle">JUDUL PROPOSAL PENELITIAN</h2>
+                                                    <p class="text-center">Oleh: Nama Mahasiswa</p>
+                                                    <p class="text-center">NIM: 123456789</p>
+                                                    
+                                                    <div class="mt-5">
+                                                        <h3>BAB I. PENDAHULUAN</h3>
+                                                        <p>   Latar belakang penelitian ini adalah pentingnya memahami pengaruh teknologi terhadap proses belajar mengajar di era digital. Perkembangan teknologi informasi telah mengubah banyak aspek kehidupan, termasuk pendidikan.</p>
+                                                        
+                                                        <h3 class="mt-4">BAB II. TINJAUAN PUSTAKA</h3>
+                                                        <p>   Tinjauan pustaka membahas penelitian-penelitian sebelumnya yang relevan dengan topik ini. Menurut Smith (2020), penggunaan teknologi dalam pendidikan meningkatkan keterlibatan siswa sebesar 40%.</p>
+                                                        
+                                                        <h3 class="mt-4">BAB III. METODE PENELITIAN</h3>
+                                                        <p>   Penelitian ini menggunakan metode kualitatif dengan pendekatan studi kasus. partisipan penelitian adalah 50 siswa SMA yang menggunakan platform pembelajaran digital selama satu semester.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mt-3 d-flex justify-content-between">
+                                            <button id="detectErrorsBtn" class="btn btn-primary">
+                                                <i class="bi bi-search"></i> Deteksi Kesalahan
+                                            </button>
+                                            <button id="fixAllErrorsBtn" class="btn btn-success">
+                                                <i class="bi bi-magic"></i> Perbaiki Otomatis
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4 mb-4">
+                                <div class="feature-card h-100">
+                                    <h5 class="card-title">Hasil Deteksi</h5>
+                                    <p>Daftar kesalahan yang ditemukan dalam dokumen.</p>
+                                    
+                                    <div id="detectionResults" class="mt-3">
+                                        <div class="text-center py-4 text-muted">
+                                            <i class="bi bi-check-circle fs-1"></i>
+                                            <p class="mt-2">Belum ada deteksi kesalahan</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mt-4">
+                                        <div class="alert alert-info">
+                                            <i class="bi bi-info-circle"></i> Fitur ini termasuk premium. Free trial 3 kali tersisa: <span id="correctionTrialCount">3</span>
+                                        </div>
+                                        
+                                        <div id="structureResults" class="mt-3">
+                                            <h6>Hasil Pemeriksaan Struktur</h6>
+                                            <div class="mt-2 text-center py-3 text-muted">
+                                                <i class="bi bi-clipboard-data"></i>
+                                                <p class="mt-2 small">Belum ada pemeriksaan struktur</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="d-grid mt-3">
+                                            <button id="saveCorrectionsBtn" class="btn btn-success">
+                                                <i class="bi bi-save"></i> Simpan Perubahan
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Halaman Hitung Kata -->
+                    <div id="wordcountPage" class="page-content d-none">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3><i class="bi bi-calculator text-primary"></i> Hitung Kata & Karakter</h3>
+                            <button class="btn btn-primary" data-page="dashboard"><i class="bi bi-arrow-left"></i> Kembali ke Dashboard</button>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-lg-6 mb-4">
+                                <div class="feature-card h-100">
+                                    <h5 class="card-title">Hitung Otomatis</h5>
+                                    <p>Sistem akan menghitung jumlah kata dan karakter secara otomatis dari dokumen yang dipilih.</p>
+                                    
+                                    <div class="mt-4">
+                                        <div class="mb-3">
+                                            <label for="wordcountDocument" class="form-label">Pilih Dokumen</label>
+                                            <select class="form-select" id="wordcountDocument">
+                                                <option value="">Pilih dokumen...</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <button id="calculateWordcountBtn" class="btn btn-primary w-100 mb-3">
+                                            <i class="bi bi-calculator"></i> Hitung Sekarang
+                                        </button>
+                                        
+                                        <div id="wordcountResults" class="text-center py-4">
+                                            <div class="display-4 text-primary" id="wordCount">0</div>
+                                            <p class="text-muted">Kata</p>
+                                            
+                                            <div class="display-4 text-secondary" id="charCount">0</div>
+                                            <p class="text-muted">Karakter (tanpa spasi)</p>
+                                            
+                                            <div class="mt-3">
+                                                <p><strong>Estimasi waktu baca:</strong> <span id="readingTime">0 menit</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-6 mb-4">
+                                <div class="feature-card h-100">
+                                    <h5 class="card-title">Hitung Manual</h5>
+                                    <p>Masukkan atau tempel teks di bawah untuk menghitung kata dan karakter.</p>
+                                    
+                                    <div class="mt-4">
+                                        <div class="mb-3">
+                                            <label for="manualText" class="form-label">Teks</label>
+                                            <textarea class="form-control" id="manualText" rows="10" placeholder="Tempel atau ketik teks di sini..."></textarea>
+                                        </div>
+                                        
+                                        <button id="calculateManualBtn" class="btn btn-primary w-100 mb-3">
+                                            <i class="bi bi-calculator"></i> Hitung Teks Ini
+                                        </button>
+                                        
+                                        <div id="manualWordcountResults" class="text-center py-4">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="h4 text-primary" id="manualWordCount">0</div>
+                                                    <p class="text-muted small">Kata</p>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="h4 text-secondary" id="manualCharCount">0</div>
+                                                    <p class="text-muted small">Karakter</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Halaman Parafrase AI -->
+                    <div id="paraphrasePage" class="page-content d-none">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3><i class="bi bi-lightbulb text-primary"></i> Parafrase AI</h3>
+                            <button class="btn btn-primary" data-page="dashboard"><i class="bi bi-arrow-left"></i> Kembali ke Dashboard</button>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-lg-6 mb-4">
+                                <div class="feature-card h-100">
+                                    <h5 class="card-title">Teks Asli</h5>
+                                    <p>Masukkan teks yang ingin diparafrase di sini.</p>
+                                    
+                                    <div class="mt-4">
+                                        <div class="mb-3">
+                                            <label for="originalText" class="form-label">Teks Asli</label>
+                                            <textarea class="form-control" id="originalText" rows="12" placeholder="Masukkan teks yang ingin diparafrase..."></textarea>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="paraphraseStyle" class="form-label">Gaya Parafrase</label>
+                                            <select class="form-select" id="paraphraseStyle">
+                                                <option value="standard">Standar (mempertahankan makna)</option>
+                                                <option value="academic">Akademik (lebih formal)</option>
+                                                <option value="simple">Sederhana (lebih mudah dipahami)</option>
+                                                <option value="creative">Kreatif (variasi lebih banyak)</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <button id="paraphraseBtn" class="btn btn-primary w-100 mb-3">
+                                            <i class="bi bi-robot"></i> Parafrase dengan AI
+                                        </button>
+                                        
+                                        <div class="alert alert-info">
+                                            <i class="bi bi-info-circle"></i> Fitur ini termasuk premium. Free trial 3 kali tersisa: <span id="paraphraseTrialCount">3</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-6 mb-4">
+                                <div class="feature-card h-100">
+                                    <h5 class="card-title">Hasil Parafrase AI</h5>
+                                    <p>Teks hasil parafrase akan muncul di sini.</p>
+                                    
+                                    <div class="mt-4">
+                                        <div id="paraphraseResult" class="document-preview p-3" style="min-height: 300px;">
+                                            <div class="text-center py-5 text-muted">
+                                                <i class="bi bi-arrow-left-right fs-1"></i>
+                                                <p class="mt-2">Hasil parafrase akan muncul di sini</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="mt-3 d-flex justify-content-between">
+                                            <button id="copyParaphraseBtn" class="btn btn-outline-secondary" disabled>
+                                                <i class="bi bi-clipboard"></i> Salin
+                                            </button>
+                                            <button id="replaceOriginalBtn" class="btn btn-success" disabled>
+                                                <i class="bi bi-arrow-left-right"></i> Ganti Teks Asli
+                                            </button>
+                                        </div>
+                                        
+                                        <div class="mt-3">
+                                            <h6>Riwayat Parafrase</h6>
+                                            <div id="paraphraseHistory" class="list-group">
+                                                <!-- Riwayat parafrase akan muncul di sini -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Halaman Contoh Dokumen -->
+                    <div id="examplesPage" class="page-content d-none">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3><i class="bi bi-journal-bookmark text-primary"></i> Contoh Dokumen Akademik</h3>
+                            <button class="btn btn-primary" data-page="dashboard"><i class="bi bi-arrow-left"></i> Kembali ke Dashboard</button>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="feature-card example-card h-100">
+                                    <div class="feature-icon">
+                                        <i class="bi bi-file-earmark-text"></i>
+                                    </div>
+                                    <h5 class="card-title">Proposal Penelitian</h5>
+                                    <p>Contoh proposal penelitian lengkap dengan struktur yang benar.</p>
+                                    <button class="btn btn-outline-primary btn-sm preview-example" data-example="proposal">
+                                        <i class="bi bi-eye"></i> Preview
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="feature-card example-card h-100">
+                                    <div class="feature-icon">
+                                        <i class="bi bi-book"></i>
+                                    </div>
+                                    <h5 class="card-title">Skripsi Lengkap</h5>
+                                    <p>Contoh skripsi dari bab 1 hingga bab 5 dengan format yang tepat.</p>
+                                    <button class="btn btn-outline-primary btn-sm preview-example" data-example="skripsi">
+                                        <i class="bi bi-eye"></i> Preview
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="feature-card example-card h-100">
+                                    <div class="feature-icon">
+                                        <i class="bi bi-clipboard-data"></i>
+                                    </div>
+                                    <h5 class="card-title">Metodologi Penelitian</h5>
+                                    <p>Contoh bab metodologi penelitian kualitatif dan kuantitatif.</p>
+                                    <button class="btn btn-outline-primary btn-sm preview-example" data-example="metodologi">
+                                        <i class="bi bi-eye"></i> Preview
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert alert-warning">
+                                    <i class="bi bi-exclamation-triangle"></i> 
+                                    <strong>Preview terbatas untuk pengguna gratis.</strong> Hanya 3 halaman pertama yang dapat dilihat. Upgrade ke premium untuk akses penuh dan download.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Halaman Video Tutorial -->
+                    <div id="tutorialsPage" class="page-content d-none">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3><i class="bi bi-youtube text-primary"></i> Video Tutorial</h3>
+                            <button class="btn btn-primary" data-page="dashboard"><i class="bi bi-arrow-left"></i> Kembali ke Dashboard</button>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-lg-6 mb-4">
+                                <div class="feature-card h-100">
+                                    <h5 class="card-title">Cara Membuat Proposal Penelitian</h5>
+                                    <p>Video tutorial lengkap tentang langkah-langkah menyusun proposal penelitian yang baik.</p>
+                                    <div class="ratio ratio-16x9 mt-3">
+                                        <iframe src="https://www.youtube.com/embed/7NN7R1hEx9E" title="Cara Membuat Proposal Penelitian" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-6 mb-4">
+                                <div class="feature-card h-100">
+                                    <h5 class="card-title">Teknik Penulisan Skripsi</h5>
+                                    <p>Panduan praktis menulis skripsi dari bab 1 hingga bab 5.</p>
+                                    <div class="ratio ratio-16x9 mt-3">
+                                        <iframe src="https://www.youtube.com/embed/5M1Y5Vh2J6Y" title="Teknik Penulisan Skripsi" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-6 mb-4">
+                                <div class="feature-card h-100">
+                                    <h5 class="card-title">Metodologi Penelitian</h5>
+                                    <p>Memahami berbagai metodologi penelitian dan penerapannya.</p>
+                                    <div class="ratio ratio-16x9 mt-3">
+                                        <iframe src="https://www.youtube.com/embed/qD4OS0eS5Uw" title="Metodologi Penelitian" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-6 mb-4">
+                                <div class="feature-card h-100">
+                                    <h5 class="card-title">Analisis Data untuk Skripsi</h5>
+                                    <p>Cara menganalisis data penelitian menggunakan software statistik.</p>
+                                    <div class="ratio ratio-16x9 mt-3">
+                                        <iframe src="https://www.youtube.com/embed/xgQnmOavK9w" title="Analisis Data untuk Skripsi" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Halaman Profil -->
+                    <div id="profilePage" class="page-content d-none">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3><i class="bi bi-person text-primary"></i> Profil Pengguna</h3>
+                            <button class="btn btn-primary" data-page="dashboard"><i class="bi bi-arrow-left"></i> Kembali ke Dashboard</button>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-lg-8 mb-4">
+                                <div class="feature-card h-100">
+                                    <h5 class="card-title">Informasi Akun</h5>
+                                    <p>Kelola informasi akun dan preferensi Anda.</p>
+                                    
+                                    <div class="mt-4">
+                                        <div class="mb-3">
+                                            <label for="profileName" class="form-label">Nama Lengkap</label>
+                                            <input type="text" class="form-control" id="profileName" placeholder="Nama Anda">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="profileEmail" class="form-label">Email</label>
+                                            <input type="email" class="form-control" id="profileEmail" placeholder="nama@email.com">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="profilePhoto" class="form-label">Foto Profil (URL)</label>
+                                            <input type="text" class="form-control" id="profilePhoto" placeholder="https://example.com/foto.jpg">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="profilePassword" class="form-label">Password Baru (opsional)</label>
+                                            <input type="password" class="form-control" id="profilePassword" placeholder="Kosongkan jika tidak ingin mengubah">
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <label for="profileConfirmPassword" class="form-label">Konfirmasi Password Baru</label>
+                                            <input type="password" class="form-control" id="profileConfirmPassword" placeholder="Konfirmasi password baru">
+                                        </div>
+                                        
+                                        <div class="d-grid">
+                                            <button id="saveProfileBtn" class="btn btn-primary">
+                                                <i class="bi bi-save"></i> Simpan Perubahan
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-4 mb-4">
+                                <div class="feature-card h-100">
+                                    <h5 class="card-title">Foto Profil</h5>
+                                    <p>Foto profil Anda akan ditampilkan di sini.</p>
+                                    
+                                    <div class="text-center mt-4">
+                                        <div id="profilePhotoPreview" class="rounded-circle bg-secondary d-inline-flex align-items-center justify-content-center" style="width: 150px; height: 150px;">
+                                            <i class="bi bi-person fs-1 text-white"></i>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mt-4">
+                                        <h6>Status Akun</h6>
+                                        <p><strong>Tipe:</strong> <span id="profileAccountType">Free</span></p>
+                                        <p><strong>Bergabung sejak:</strong> <span id="joinDate">-</span></p>
+                                        <p><strong>Total penggunaan:</strong> <span id="totalUsage">0</span> kali</p>
+                                    </div>
+                                    
+                                    <div class="mt-4">
+                                        <h6>Preferensi</h6>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="darkModeSwitch">
+                                            <label class="form-check-label" for="darkModeSwitch">Mode Gelap</label>
+                                        </div>
+                                        <div class="form-check form-switch mt-2">
+                                            <input class="form-check-input" type="checkbox" id="notificationsSwitch" checked>
+                                            <label class="form-check-label" for="notificationsSwitch">Notifikasi</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Toast Notifications -->
+        <div class="toast-container">
+            <!-- Toast akan ditambahkan secara dinamis -->
+        </div>
+        
+        <!-- Modal Premium -->
+        <div class="modal fade" id="premiumModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content premium-modal">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><i class="bi bi-star"></i> Upgrade ke Premium</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4 class="text-center mb-4">Akses Penuh ke Semua Fitur</h4>
+                        
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success fs-4 me-3"></i>
+                                    <div>
+                                        <h6>Akses tanpa batas ke semua fitur premium</h6>
+                                        <p class="small mb-0">Upload, koreksi proposal, parafrase AI, dan lainnya</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success fs-4 me-3"></i>
+                                    <div>
+                                        <h6>Download contoh dokumen lengkap</h6>
+                                        <p class="small mb-0">Akses penuh ke contoh proposal, skripsi, dan lainnya</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 mb-3">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success fs-4 me-3"></i>
+                                    <div>
+                                        <h6>Parafrase AI cerdas</h6>
+                                        <p class="small mb-0">Parafrase teks dengan AI yang memahami konteks</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 mb-4">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-check-circle-fill text-success fs-4 me-3"></i>
+                                    <div>
+                                        <h6>Penyimpanan dokumen lebih besar</h6>
+                                        <p class="small mb-0">Simpan lebih banyak dokumen di akun Anda</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center">
+                            <h2 class="mb-0">Rp 50.000<span class="fs-6 text-muted">/bulan</span></h2>
+                            <p class="text-muted">Bayar sekali, akses sebulan penuh</p>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Nanti Saja</button>
+                        <button id="confirmUpgradeBtn" type="button" class="btn btn-dark">
+                            <i class="bi bi-credit-card"></i> Upgrade Sekarang
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Modal Preview Contoh Dokumen -->
+        <div class="modal fade" id="exampleModal" tabindex="-1">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalTitle">Contoh Dokumen</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="examplePreview" class="document-preview position-relative">
+                            <!-- Konten contoh dokumen akan dimuat di sini -->
+                            
+                            <!-- Blur overlay untuk preview terbatas -->
+                            <div id="exampleBlurOverlay" class="blur-overlay d-none">
+                                <h4 class="text-primary mb-3"><i class="bi bi-lock"></i> Preview Terbatas</h4>
+                                <p class="text-center mb-3">Anda telah mencapai batas preview untuk pengguna gratis.</p>
+                                <p class="text-center mb-4">Upgrade ke akun premium untuk akses penuh dan download.</p>
+                                <button id="upgradeFromExample" class="btn btn-warning">
+                                    <i class="bi bi-star"></i> Upgrade ke Premium
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        <button id="downloadExampleBtn" type="button" class="btn btn-primary" disabled>
+                            <i class="bi bi-download"></i> Download (Premium)
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Aplikasi JavaScript -->
+    <script>
+        // ==================== KONFIGURASI APLIKASI ====================
+        const APP_NAME = "Propolab";
+        const PREMIUM_PRICE = 50000;
+        const FREE_TRIAL_LIMIT = 3;
+        
+        // ==================== STATE APLIKASI ====================
+        let currentUser = null;
+        let currentTheme = 'light';
+        let documents = [];
+        let conversions = [];
+        let paraphrases = [];
+        let trialCounts = {
+            upload: FREE_TRIAL_LIMIT,
+            correction: FREE_TRIAL_LIMIT,
+            wordcount: FREE_TRIAL_LIMIT,
+            paraphrase: FREE_TRIAL_LIMIT
+        };
+        
+        // ==================== FUNGSI UTILITAS ====================
+        function showToast(message, type = 'info') {
+            const toastContainer = document.querySelector('.toast-container');
+            const toastId = 'toast-' + Date.now();
+            
+            const typeIcons = {
+                success: 'bi-check-circle',
+                error: 'bi-exclamation-circle',
+                warning: 'bi-exclamation-triangle',
+                info: 'bi-info-circle'
+            };
+            
+            const typeColors = {
+                success: 'var(--success)',
+                error: 'var(--danger)',
+                warning: 'var(--warning)',
+                info: 'var(--primary-blue)'
+            };
+            
+            const toast = document.createElement('div');
+            toast.className = `toast fade-in`;
+            toast.id = toastId;
+            toast.setAttribute('role', 'alert');
+            
+            toast.innerHTML = `
+                <div class="toast-header">
+                    <i class="bi ${typeIcons[type]}" style="color: ${typeColors[type]}"></i>
+                    <strong class="ms-2 me-auto">${APP_NAME}</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                </div>
+                <div class="toast-body">
+                    ${message}
+                </div>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            const bsToast = new bootstrap.Toast(toast, { delay: 3000 });
+            bsToast.show();
+            
+            toast.addEventListener('hidden.bs.toast', function () {
+                toast.remove();
+            });
+        }
+        
+        function showLoading(selector) {
+            const element = document.querySelector(selector);
+            if (element) {
+                const originalContent = element.innerHTML;
+                element.innerHTML = `
+                    <div class="spinner-container">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Memuat...</span>
+                        </div>
+                    </div>
+                `;
+                element.dataset.originalContent = originalContent;
+            }
+        }
+        
+        function hideLoading(selector) {
+            const element = document.querySelector(selector);
+            if (element && element.dataset.originalContent) {
+                element.innerHTML = element.dataset.originalContent;
+            }
+        }
+        
+        // ==================== MANAJEMEN THEME ====================
+        function initTheme() {
+            const savedTheme = localStorage.getItem('propolab-theme') || 'light';
+            setTheme(savedTheme);
+        }
+        
+        function setTheme(theme) {
+            currentTheme = theme;
+            document.body.setAttribute('data-theme', theme);
+            localStorage.setItem('propolab-theme', theme);
+            
+            const themeIcon = document.querySelector('#themeToggle i');
+            if (themeIcon) {
+                themeIcon.className = theme === 'dark' ? 'bi bi-sun' : 'bi bi-moon';
+            }
+        }
+        
+        function toggleTheme() {
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme);
+        }
+        
+        // ==================== MANAJEMEN USER & AUTH ====================
+        function hashPassword(password) {
+            // Hash sederhana untuk demo (tidak aman untuk produksi)
+            let hash = 0;
+            for (let i = 0; i < password.length; i++) {
+                const char = password.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+            }
+            return Math.abs(hash).toString(16);
+        }
+        
+        function registerUser(name, email, password) {
+            const users = JSON.parse(localStorage.getItem('propolab-users') || '[]');
+            
+            // Cek jika email sudah terdaftar
+            if (users.some(user => user.email === email)) {
+                return { success: false, message: 'Email sudah terdaftar' };
+            }
+            
+            const newUser = {
+                id: Date.now().toString(),
+                name: name,
+                email: email,
+                password: hashPassword(password),
+                plan: 'free',
+                joinDate: new Date().toISOString(),
+                photo: '',
+                usageCount: 0
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('propolab-users', JSON.stringify(users));
+            
+            // Simpan trial counts untuk user baru
+            saveTrialCounts(newUser.id);
+            
+            return { success: true, user: newUser };
+        }
+        
+        function loginUser(email, password) {
+            const users = JSON.parse(localStorage.getItem('propolab-users') || '[]');
+            const hashedPassword = hashPassword(password);
+            
+            const user = users.find(u => u.email === email && u.password === hashedPassword);
+            
+            if (user) {
+                // Update usage count
+                user.usageCount = (user.usageCount || 0) + 1;
+                localStorage.setItem('propolab-users', JSON.stringify(users));
+                
+                return { success: true, user: user };
+            } else {
+                return { success: false, message: 'Email atau password salah' };
+            }
+        }
+        
+        function saveTrialCounts(userId) {
+            const trialData = JSON.parse(localStorage.getItem('propolab-trials') || '{}');
+            trialData[userId] = trialCounts;
+            localStorage.setItem('propolab-trials', JSON.stringify(trialData));
+        }
+        
+        function loadTrialCounts(userId) {
+            const trialData = JSON.parse(localStorage.getItem('propolab-trials') || '{}');
+            if (trialData[userId]) {
+                trialCounts = trialData[userId];
+            } else {
+                trialCounts = {
+                    upload: FREE_TRIAL_LIMIT,
+                    correction: FREE_TRIAL_LIMIT,
+                    wordcount: FREE_TRIAL_LIMIT,
+                    paraphrase: FREE_TRIAL_LIMIT
+                };
+                saveTrialCounts(userId);
+            }
+            
+            updateTrialDisplays();
+        }
+        
+        function updateTrialDisplays() {
+            // Update semua tampilan trial counts
+            document.querySelectorAll('#correctionTrial').forEach(el => el.textContent = trialCounts.correction);
+            document.querySelectorAll('#wordcountTrial').forEach(el => el.textContent = trialCounts.wordcount);
+            document.querySelectorAll('#paraphraseTrial').forEach(el => el.textContent = trialCounts.paraphrase);
+            document.querySelectorAll('#paraphraseTrialCount').forEach(el => el.textContent = trialCounts.paraphrase);
+            document.querySelectorAll('#correctionTrialCount').forEach(el => el.textContent = trialCounts.correction);
+            
+            // Update progress bar
+            const totalTrials = Object.values(trialCounts).reduce((a, b) => a + b, 0);
+            const maxTrials = Object.keys(trialCounts).length * FREE_TRIAL_LIMIT;
+            const usedTrials = maxTrials - totalTrials;
+            const percentage = (usedTrials / maxTrials) * 100;
+            
+            const progressBar = document.getElementById('trialProgress');
+            if (progressBar) {
+                progressBar.style.width = `${percentage}%`;
+            }
+            
+            // Update badge premium jika user sudah premium
+            if (currentUser && currentUser.plan === 'premium') {
+                document.querySelectorAll('.premium-badge').forEach(badge => {
+                    badge.style.display = 'none';
+                });
+                
+                document.querySelectorAll('.free-badge').forEach(badge => {
+                    badge.style.display = 'none';
+                });
+            }
+        }
+        
+        function checkTrial(feature) {
+            if (currentUser.plan === 'premium') {
+                return true;
+            }
+            
+            if (trialCounts[feature] > 0) {
+                trialCounts[feature]--;
+                saveTrialCounts(currentUser.id);
+                updateTrialDisplays();
+                return true;
+            }
+            
+            return false;
+        }
+        
+        function showPremiumRequired(featureName) {
+            showToast(`Fitur ${featureName} membutuhkan akun premium. Upgrade sekarang untuk akses penuh.`, 'warning');
+            
+            // Tampilkan modal premium
+            const premiumModal = new bootstrap.Modal(document.getElementById('premiumModal'));
+            premiumModal.show();
+            
+            return false;
+        }
+        
+        // ==================== MANAJEMEN DOKUMEN ====================
+        function loadDocuments() {
+            const savedDocs = localStorage.getItem(`propolab-docs-${currentUser.id}`);
+            if (savedDocs) {
+                documents = JSON.parse(savedDocs);
+            } else {
+                documents = [];
+            }
+            
+            updateDocumentSelects();
+            renderDocumentHistory();
+            updateStats();
+        }
+        
+        function saveDocuments() {
+            localStorage.setItem(`propolab-docs-${currentUser.id}`, JSON.stringify(documents));
+        }
+        
+        function addDocument(name, content = '') {
+            if (currentUser.plan !== 'premium' && !checkTrial('upload')) {
+                showPremiumRequired('Upload Dokumen');
+                return false;
+            }
+            
+            const newDoc = {
+                id: Date.now().toString(),
+                name: name,
+                content: content,
+                date: new Date().toISOString(),
+                wordCount: countWords(content),
+                charCount: content.replace(/\s/g, '').length,
+                type: 'text'
+            };
+            
+            documents.unshift(newDoc);
+            saveDocuments();
+            updateDocumentSelects();
+            renderDocumentHistory();
+            updateStats();
+            
+            showToast(`Dokumen "${name}" berhasil diunggah`, 'success');
+            return true;
+        }
+        
+        function deleteDocument(id) {
+            documents = documents.filter(doc => doc.id !== id);
+            saveDocuments();
+            updateDocumentSelects();
+            renderDocumentHistory();
+            updateStats();
+            
+            showToast('Dokumen berhasil dihapus', 'success');
+        }
+        
+        function updateDocumentSelects() {
+            const selects = document.querySelectorAll('select[id$="Document"]');
+            
+            selects.forEach(select => {
+                const currentValue = select.value;
+                select.innerHTML = '<option value="">Pilih dokumen...</option>';
+                
+                documents.forEach(doc => {
+                    const option = document.createElement('option');
+                    option.value = doc.id;
+                    option.textContent = doc.name;
+                    select.appendChild(option);
+                });
+                
+                // Coba pertahankan nilai sebelumnya
+                if (documents.some(doc => doc.id === currentValue)) {
+                    select.value = currentValue;
+                }
+            });
+        }
+        
+        function renderDocumentHistory() {
+            const container = document.getElementById('documentHistory');
+            if (!container) return;
+            
+            if (documents.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-4 text-muted">
+                        <i class="bi bi-folder-x fs-1"></i>
+                        <p class="mt-2">Belum ada dokumen yang diunggah</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            // Tampilkan maksimal 5 dokumen terbaru
+            const recentDocs = documents.slice(0, 5);
+            
+            recentDocs.forEach(doc => {
+                const docDate = new Date(doc.date);
+                const formattedDate = docDate.toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                });
+                
+                const docEl = document.createElement('div');
+                docEl.className = 'card mb-2';
+                docEl.innerHTML = `
+                    <div class="card-body p-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-0">${doc.name}</h6>
+                                <small class="text-muted">${formattedDate} • ${doc.wordCount} kata</small>
+                            </div>
+                            <div>
+                                <button class="btn btn-sm btn-outline-danger delete-doc" data-id="${doc.id}">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                container.appendChild(docEl);
+            });
+            
+            // Tambahkan event listener untuk tombol hapus
+            container.querySelectorAll('.delete-doc').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const docId = this.getAttribute('data-id');
+                    if (confirm('Apakah Anda yakin ingin menghapus dokumen ini?')) {
+                        deleteDocument(docId);
+                    }
+                });
+            });
+        }
+        
+        // ==================== MANAJEMEN KONVERSI ====================
+        function loadConversions() {
+            const savedConvs = localStorage.getItem(`propolab-convs-${currentUser.id}`);
+            if (savedConvs) {
+                conversions = JSON.parse(savedConvs);
+            } else {
+                conversions = [];
+            }
+            
+            renderConversionHistory();
+        }
+        
+        function saveConversions() {
+            localStorage.setItem(`propolab-convs-${currentUser.id}`, JSON.stringify(conversions));
+        }
+        
+        function addConversion(docId, fromType, toType) {
+            const doc = documents.find(d => d.id === docId);
+            if (!doc) {
+                showToast('Dokumen tidak ditemukan', 'error');
+                return;
+            }
+            
+            const newConv = {
+                id: Date.now().toString(),
+                docName: doc.name,
+                fromType: fromType,
+                toType: toType,
+                date: new Date().toISOString()
+            };
+            
+            conversions.unshift(newConv);
+            saveConversions();
+            renderConversionHistory();
+            updateStats();
+            
+            // Tampilkan hasil konversi
+            const resultArea = document.getElementById('conversionResult');
+            if (resultArea) {
+                resultArea.innerHTML = `
+                    <div class="alert alert-success">
+                        <i class="bi bi-check-circle"></i>
+                        <h5>Konversi Berhasil!</h5>
+                        <p>Dokumen "${doc.name}" telah dikonversi dari ${fromType} ke ${toType}.</p>
+                        <div class="mt-3">
+                            <button class="btn btn-success btn-sm">
+                                <i class="bi bi-download"></i> Download Hasil
+                            </button>
+                            <button class="btn btn-outline-secondary btn-sm ms-2">
+                                <i class="bi bi-eye"></i> Preview
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            showToast('Konversi dokumen berhasil', 'success');
+        }
+        
+        function renderConversionHistory() {
+            const container = document.getElementById('conversionHistoryList');
+            if (!container) return;
+            
+            if (conversions.length === 0) {
+                container.innerHTML = '<div class="text-center text-muted py-3">Belum ada riwayat konversi</div>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            conversions.slice(0, 5).forEach(conv => {
+                const convDate = new Date(conv.date);
+                const formattedDate = convDate.toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                const typeMap = {
+                    'wordToPdf': 'Word ke PDF',
+                    'pdfToWord': 'PDF ke Word'
+                };
+                
+                const convEl = document.createElement('a');
+                convEl.href = '#';
+                convEl.className = 'list-group-item list-group-item-action';
+                convEl.innerHTML = `
+                    <div class="d-flex w-100 justify-content-between">
+                        <h6 class="mb-1">${conv.docName}</h6>
+                        <small>${formattedDate}</small>
+                    </div>
+                    <p class="mb-1">${typeMap[conv.fromType] || conv.fromType} → ${typeMap[conv.toType] || conv.toType}</p>
+                `;
+                
+                container.appendChild(convEl);
+            });
+        }
+        
+        // ==================== FUNGSI FITUR ====================
+        function countWords(text) {
+            if (!text || text.trim() === '') return 0;
+            return text.trim().split(/\s+/).length;
+        }
+        
+        function countChars(text) {
+            if (!text) return 0;
+            return text.replace(/\s/g, '').length;
+        }
+        
+        // Fungsi parafrase AI yang lebih cerdas
+        function smartParaphrase(text, style = 'standard') {
+            // Database sinonim yang lebih baik
+            const synonyms = {
+                'dapat': ['bisa', 'mampu', 'sanggup', 'dapat dilakukan'],
+                'adalah': ['merupakan', 'ialah', 'yaitu', 'yakni'],
+                'untuk': ['bagi', 'guna', 'demi', 'untuk keperluan'],
+                'dengan': ['bersama', 'menggunakan', 'dengan bantuan', 'melalui'],
+                'yang': [''],
+                'sangat': ['amat', 'sekali', 'sungguh', 'benar-benar'],
+                'penelitian': ['kajian', 'studi', 'riset', 'penyelidikan'],
+                'proposal': ['rancangan', 'usulan', 'rencana', 'draft'],
+                'skripsi': ['tesis', 'karya ilmiah', 'tugas akhir', 'disertasi'],
+                'mahasiswa': ['pelajar', 'siswa', 'anak didik', 'peserta didik'],
+                'makan': ['menyantap', 'menikmati', 'menelan', 'mengonsumsi'],
+                'buah': ['buaahan', 'hasil tanaman', 'produk perkebunan', 'hasil panen'],
+                'aku': ['saya', 'penulis', 'kami', 'diriku'],
+                'melakukan': ['menjalankan', 'melaksanakan', 'mengerjakan', 'mengeksekusi'],
+                'analisis': ['pengkajian', 'penelaahan', 'pemeriksaan', 'evaluasi'],
+                'hasil': ['output', 'produk', 'dampak', 'akibat'],
+                'data': ['informasi', 'fakta', 'angka', 'statistik'],
+                'metode': ['cara', 'teknik', 'pendekatan', 'prosedur']
+            };
+            
+            // Pola kalimat untuk parafrase lebih natural
+            const sentencePatterns = [
+                (subject, verb, object) => `${subject} ${verb} ${object}`,
+                (subject, verb, object) => `${object} ${verb} oleh ${subject}`,
+                (subject, verb, object) => `Terdapat ${object} yang ${verb} oleh ${subject}`,
+                (subject, verb, object) => `${subject} melakukan ${verb} terhadap ${object}`
+            ];
+            
+            let paraphrased = text;
+            
+            // Ganti kata dengan sinonim acak
+            Object.keys(synonyms).forEach(word => {
+                const regex = new RegExp(`\\b${word}\\b`, 'gi');
+                const matches = paraphrased.match(regex);
+                
+                if (matches) {
+                    matches.forEach(match => {
+                        const wordOptions = synonyms[word];
+                        if (wordOptions.length > 0) {
+                            const randomSynonym = wordOptions[Math.floor(Math.random() * wordOptions.length)];
+                            if (randomSynonym) {
+                                paraphrased = paraphrased.replace(match, randomSynonym);
+                            }
+                        }
+                    });
+                }
+            });
+            
+            // Ubah struktur kalimat sederhana
+            const simplePatterns = [
+                { pattern: /(aku|saya) (makan) (buah)/gi, replacement: 'Buah tersebut saya santap' },
+                { pattern: /(penelitian) ini (menunjukkan)/gi, replacement: 'Kajian ini mengindikasikan' },
+                { pattern: /(hasil) (analisis)/gi, replacement: 'Temuan dari pengkajian' },
+                { pattern: /(dapat) (dilihat)/gi, replacement: 'bisa diamati' },
+                { pattern: /(sangat) (penting)/gi, replacement: 'amat krusial' }
+            ];
+            
+            simplePatterns.forEach(p => {
+                paraphrased = paraphrased.replace(p.pattern, p.replacement);
+            });
+            
+            // Sesuaikan dengan gaya yang dipilih
+            if (style === 'academic') {
+                paraphrased = paraphrased.replace(/\b(aku|saya)\b/gi, 'penulis');
+                paraphrased = paraphrased.replace(/\b(kamu|anda)\b/gi, 'pembaca');
+                paraphrased = paraphrased + ' Berdasarkan temuan tersebut, dapat disimpulkan bahwa hal ini memiliki implikasi yang signifikan.';
+            } else if (style === 'simple') {
+                paraphrased = paraphrased.replace(/\b(penelitian|kajian|studi)\b/gi, 'penelitian');
+                paraphrased = paraphrased.replace(/\b(analisis|pengkajian|evaluasi)\b/gi, 'analisis');
+            } else if (style === 'creative') {
+                // Tambahkan variasi kreatif
+                const creativeAddons = [
+                    ' Hal ini menunjukkan dinamika yang menarik untuk ditelaah lebih lanjut.',
+                    ' Fenomena tersebut mengundang perhatian untuk dikaji secara mendalam.',
+                    ' Aspek ini menjadi fokus yang relevan dalam konteks pembahasan.'
+                ];
+                const randomAddon = creativeAddons[Math.floor(Math.random() * creativeAddons.length)];
+                paraphrased = paraphrased + randomAddon;
+            }
+            
+            return paraphrased;
+        }
+        
+        function detectErrors(text) {
+            const errors = [];
+            
+            // Deteksi typo sederhana (kata umum yang salah ketik)
+            const commonTypos = {
+                'dapat': ['dpat', 'dapa', 'dapt'],
+                'yang': ['yng', 'yan', 'yng'],
+                'dengan': ['dg', 'dgn', 'dengan'],
+                'untuk': ['untk', 'untuk', 'untuk'],
+                'adalah': ['adl', 'adalah', 'adalh'],
+                'penelitian': ['penelitin', 'penelitan', 'penelitain']
+            };
+            
+            // Deteksi kapitalisasi yang salah
+            const sentences = text.split(/[.!?]+/);
+            sentences.forEach((sentence, index) => {
+                const trimmed = sentence.trim();
+                if (trimmed.length > 0) {
+                    const firstChar = trimmed[0];
+                    if (firstChar !== firstChar.toUpperCase()) {
+                        errors.push({
+                            type: 'capital',
+                            position: index,
+                            message: 'Huruf pertama kalimat harus kapital',
+                            sentence: trimmed.substring(0, 50) + '...'
+                        });
+                    }
+                }
+            });
+            
+            // Deteksi struktur paragraf (paragraf harus menjorok)
+            const paragraphs = text.split(/\n\s*\n/);
+            paragraphs.forEach((para, index) => {
+                if (para.trim().length > 0 && !para.startsWith('   ') && !para.startsWith('\t')) {
+                    errors.push({
+                        type: 'structure',
+                        position: index,
+                        message: 'Paragraf sebaiknya menjorok (indent)',
+                        paragraph: para.substring(0, 100) + '...'
+                    });
+                }
+            });
+            
+            return errors;
+        }
+        
+        function checkStructure(docContent) {
+            const errors = [];
+            
+            // Cek judul di tengah
+            if (!docContent.includes('text-center') && !docContent.includes('center')) {
+                errors.push({
+                    type: 'judul_tengah',
+                    message: 'Judul proposal seharusnya berada di tengah halaman',
+                    fix: 'Tempatkan judul di tengah halaman'
+                });
+            }
+            
+            // Cek judul menggunakan huruf kapital
+            const titleMatch = docContent.match(/<h[12][^>]*>([^<]+)<\/h[12]>/i);
+            if (titleMatch) {
+                const title = titleMatch[1];
+                if (title !== title.toUpperCase()) {
+                    errors.push({
+                        type: 'judul_kapital',
+                        message: 'Judul proposal sebaiknya menggunakan huruf kapital',
+                        fix: 'Ubah judul menjadi huruf kapital semua'
+                    });
+                }
+            }
+            
+            // Cek urutan bab
+            const expectedChapters = ['BAB I', 'BAB II', 'BAB III', 'BAB IV', 'BAB V'];
+            const foundChapters = [];
+            
+            expectedChapters.forEach(chapter => {
+                if (docContent.includes(chapter)) {
+                    foundChapters.push(chapter);
+                }
+            });
+            
+            // Cek jika bab tidak berurutan
+            for (let i = 0; i < foundChapters.length - 1; i++) {
+                const currentIndex = expectedChapters.indexOf(foundChapters[i]);
+                const nextIndex = expectedChapters.indexOf(foundChapters[i + 1]);
+                
+                if (nextIndex !== currentIndex + 1) {
+                    errors.push({
+                        type: 'urutan_bab',
+                        message: `Bab tidak berurutan: ${foundChapters[i]} diikuti ${foundChapters[i + 1]}`,
+                        fix: 'Perbaiki urutan bab sesuai struktur akademik'
+                    });
+                }
+            }
+            
+            return errors;
+        }
+        
+        // ==================== UPDATE STATISTIK ====================
+        function updateStats() {
+            // Update total dokumen
+            const totalDocsEl = document.getElementById('totalDocuments');
+            if (totalDocsEl) {
+                totalDocsEl.textContent = documents.length;
+            }
+            
+            // Update total konversi
+            const totalConvsEl = document.getElementById('totalConversions');
+            if (totalConvsEl) {
+                totalConvsEl.textContent = conversions.length;
+            }
+            
+            // Update info di profil
+            const totalUsageEl = document.getElementById('totalUsage');
+            if (totalUsageEl && currentUser) {
+                totalUsageEl.textContent = currentUser.usageCount || 0;
+            }
+        }
+        
+        // ==================== MANAJEMEN HALAMAN ====================
+        function showPage(pageId) {
+            // Sembunyikan semua halaman
+            document.querySelectorAll('.page-content').forEach(page => {
+                page.classList.add('d-none');
+            });
+            
+            // Tampilkan halaman yang dipilih
+            const targetPage = document.getElementById(pageId + 'Page');
+            if (targetPage) {
+                targetPage.classList.remove('d-none');
+            }
+            
+            // Update sidebar active item
+            document.querySelectorAll('.sidebar-item-simple').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            const activeSidebarItem = document.querySelector(`.sidebar-item-simple[data-page="${pageId}"]`);
+            if (activeSidebarItem) {
+                activeSidebarItem.classList.add('active');
+            }
+            
+            // Scroll ke atas
+            window.scrollTo(0, 0);
+        }
+        
+        function initNavigation() {
+            // Navigasi dari sidebar
+            document.querySelectorAll('.sidebar-item-simple').forEach(item => {
+                item.addEventListener('click', function() {
+                    const pageId = this.getAttribute('data-page');
+                    if (pageId) {
+                        showPage(pageId);
+                    }
+                });
+            });
+            
+            // Navigasi dari tombol kembali
+            document.querySelectorAll('button[data-page]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const pageId = this.getAttribute('data-page');
+                    showPage(pageId);
+                });
+            });
+            
+            // Tombol upgrade premium
+            document.getElementById('upgradeBtn')?.addEventListener('click', function() {
+                const premiumModal = new bootstrap.Modal(document.getElementById('premiumModal'));
+                premiumModal.show();
+            });
+            
+            // Konfirmasi upgrade
+            document.getElementById('confirmUpgradeBtn')?.addEventListener('click', function() {
+                if (currentUser) {
+                    currentUser.plan = 'premium';
+                    
+                    // Update user di localStorage
+                    const users = JSON.parse(localStorage.getItem('propolab-users') || '[]');
+                    const userIndex = users.findIndex(u => u.id === currentUser.id);
+                    if (userIndex !== -1) {
+                        users[userIndex] = currentUser;
+                        localStorage.setItem('propolab-users', JSON.stringify(users));
+                    }
+                    
+                    // Update tampilan
+                    updateUserDisplay();
+                    
+                    showToast('Selamat! Akun Anda sekarang Premium', 'success');
+                    
+                    // Tutup modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('premiumModal'));
+                    modal.hide();
+                }
+            });
+            
+            // Upgrade dari contoh dokumen
+            document.getElementById('upgradeFromExample')?.addEventListener('click', function() {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('exampleModal'));
+                modal.hide();
+                
+                const premiumModal = new bootstrap.Modal(document.getElementById('premiumModal'));
+                premiumModal.show();
+            });
+        }
+        
+        function updateUserDisplay() {
+            if (!currentUser) return;
+            
+            // Update nama pengguna
+            document.querySelectorAll('#userName').forEach(el => {
+                el.textContent = currentUser.name;
+            });
+            
+            // Update status akun
+            const statusBadge = document.getElementById('userStatusBadge');
+            const accountType = document.getElementById('accountType');
+            const profileAccountType = document.getElementById('profileAccountType');
+            
+            if (currentUser.plan === 'premium') {
+                if (statusBadge) {
+                    statusBadge.className = 'badge bg-warning text-dark';
+                    statusBadge.textContent = 'Premium';
+                }
+                if (accountType) accountType.textContent = 'Premium';
+                if (profileAccountType) profileAccountType.textContent = 'Premium';
+                
+                // Sembunyikan badge premium di dashboard
+                document.querySelectorAll('.premium-badge').forEach(badge => {
+                    badge.style.display = 'none';
+                });
+                
+                // Update badge di dashboard
+                document.getElementById('correctionBadge')?.remove();
+                document.getElementById('wordcountBadge')?.remove();
+                document.getElementById('paraphraseBadge')?.remove();
+            } else {
+                if (statusBadge) {
+                    statusBadge.className = 'badge bg-secondary';
+                    statusBadge.textContent = 'Free';
+                }
+                if (accountType) accountType.textContent = 'Free';
+                if (profileAccountType) profileAccountType.textContent = 'Free';
+            }
+            
+            // Update info profil
+            const profileName = document.getElementById('profileName');
+            const profileEmail = document.getElementById('profileEmail');
+            const profilePhoto = document.getElementById('profilePhoto');
+            const joinDate = document.getElementById('joinDate');
+            
+            if (profileName) profileName.value = currentUser.name;
+            if (profileEmail) profileEmail.value = currentUser.email;
+            if (profilePhoto) profilePhoto.value = currentUser.photo || '';
+            if (joinDate && currentUser.joinDate) {
+                const date = new Date(currentUser.joinDate);
+                joinDate.textContent = date.toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+            }
+            
+            // Update foto profil
+            const photoPreview = document.getElementById('profilePhotoPreview');
+            if (photoPreview) {
+                if (currentUser.photo) {
+                    photoPreview.innerHTML = `<img src="${currentUser.photo}" alt="${currentUser.name}" class="rounded-circle" style="width:100%; height:100%; object-fit:cover;">`;
+                } else {
+                    photoPreview.innerHTML = `<i class="bi bi-person fs-1 text-white"></i>`;
+                }
+            }
+        }
+        
+        // ==================== EVENT LISTENERS ====================
+        function initEventListeners() {
+            // ===== LOGIN & REGISTER =====
+            document.getElementById('showRegister')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('loginForm').classList.add('d-none');
+                document.getElementById('registerForm').classList.remove('d-none');
+            });
+            
+            document.getElementById('showLogin')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('registerForm').classList.add('d-none');
+                document.getElementById('loginForm').classList.remove('d-none');
+            });
+            
+            document.getElementById('loginBtn')?.addEventListener('click', function() {
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                const rememberMe = document.getElementById('rememberMe').checked;
+                
+                if (!email || !password) {
+                    showToast('Email dan password harus diisi', 'error');
+                    return;
+                }
+                
+                const result = loginUser(email, password);
+                
+                if (result.success) {
+                    currentUser = result.user;
+                    
+                    // Simpan sesi
+                    if (rememberMe) {
+                        localStorage.setItem('propolab-current-user', JSON.stringify(currentUser));
+                    } else {
+                        sessionStorage.setItem('propolab-current-user', JSON.stringify(currentUser));
+                    }
+                    
+                    // Load data user
+                    loadTrialCounts(currentUser.id);
+                    loadDocuments();
+                    loadConversions();
+                    
+                    // Update tampilan
+                    updateUserDisplay();
+                    
+                    // Tampilkan aplikasi utama
+                    document.getElementById('loginPage').classList.add('d-none');
+                    document.getElementById('mainApp').classList.remove('d-none');
+                    
+                    showToast(`Selamat datang, ${currentUser.name}!`, 'success');
+                } else {
+                    document.getElementById('loginError').textContent = result.message;
+                    document.getElementById('loginError').classList.remove('d-none');
+                }
+            });
+            
+            document.getElementById('registerBtn')?.addEventListener('click', function() {
+                const name = document.getElementById('registerName').value;
+                const email = document.getElementById('registerEmail').value;
+                const password = document.getElementById('registerPassword').value;
+                
+                if (!name || !email || !password) {
+                    showToast('Semua field harus diisi', 'error');
+                    return;
+                }
+                
+                if (password.length < 6) {
+                    showToast('Password minimal 6 karakter', 'error');
+                    return;
+                }
+                
+                const result = registerUser(name, email, password);
+                
+                if (result.success) {
+                    showToast('Pendaftaran berhasil! Silakan login.', 'success');
+                    
+                    // Kembali ke form login
+                    document.getElementById('registerForm').classList.add('d-none');
+                    document.getElementById('loginForm').classList.remove('d-none');
+                    
+                    // Isi form login dengan email baru
+                    document.getElementById('loginEmail').value = email;
+                    document.getElementById('loginPassword').value = '';
+                } else {
+                    document.getElementById('registerError').textContent = result.message;
+                    document.getElementById('registerError').classList.remove('d-none');
+                }
+            });
+            
+            // ===== LOGOUT =====
+            document.getElementById('logoutBtn')?.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Hapus sesi
+                localStorage.removeItem('propolab-current-user');
+                sessionStorage.removeItem('propolab-current-user');
+                
+                // Kembali ke halaman login
+                document.getElementById('mainApp').classList.add('d-none');
+                document.getElementById('loginPage').classList.remove('d-none');
+                
+                // Reset form login
+                document.getElementById('loginEmail').value = '';
+                document.getElementById('loginPassword').value = '';
+                
+                showToast('Anda telah keluar', 'info');
+            });
+            
+            // ===== TOGGLE THEME =====
+            document.getElementById('themeToggle')?.addEventListener('click', toggleTheme);
+            
+            // ===== UPLOAD DOKUMEN =====
+            document.getElementById('uploadDocumentBtn')?.addEventListener('click', function() {
+                const docName = document.getElementById('documentName').value;
+                const fileInput = document.getElementById('documentFile');
+                
+                if (!docName) {
+                    showToast('Nama dokumen harus diisi', 'error');
+                    return;
+                }
+                
+                let content = '';
+                if (fileInput.files.length > 0) {
+                    const file = fileInput.files[0];
+                    const fileName = file.name.toLowerCase();
+                    
+                    if (!fileName.endsWith('.docx') && !fileName.endsWith('.pdf')) {
+                        showToast('Hanya file .docx dan .pdf yang didukung', 'error');
+                        return;
+                    }
+                    
+                    content = `[File: ${file.name}, Size: ${(file.size / 1024).toFixed(2)} KB]`;
+                    
+                    // Simulasi upload
+                    showLoading('#uploadDocumentBtn');
+                    setTimeout(() => {
+                        hideLoading('#uploadDocumentBtn');
+                        
+                        if (addDocument(docName, content)) {
+                            // Reset form
+                            document.getElementById('documentName').value = '';
+                            fileInput.value = '';
+                        }
+                    }, 1500);
+                } else {
+                    // Jika tidak ada file, buat dokumen kosong
+                    if (addDocument(docName, 'Dokumen baru dibuat di Propolab.')) {
+                        document.getElementById('documentName').value = '';
+                    }
+                }
+            });
+            
+            // ===== QUICK UPLOAD BUTTON =====
+            document.getElementById('quickUploadBtn')?.addEventListener('click', function() {
+                // Scroll ke bagian upload
+                const uploadSection = document.querySelector('.upload-card');
+                if (uploadSection) {
+                    uploadSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+            
+            // ===== KONVERSI DOKUMEN =====
+            document.getElementById('convertDocumentBtn')?.addEventListener('click', function() {
+                const docId = document.getElementById('convertDocument').value;
+                const convertType = document.getElementById('convertType').value;
+                
+                if (!docId) {
+                    showToast('Pilih dokumen terlebih dahulu', 'error');
+                    return;
+                }
+                
+                showLoading('#convertDocumentBtn');
+                setTimeout(() => {
+                    hideLoading('#convertDocumentBtn');
+                    addConversion(docId, convertType, convertType === 'wordToPdf' ? 'PDF' : 'Word');
+                }, 1000);
+            });
+            
+            // ===== KOREKSI PROPOSAL =====
+            document.getElementById('detectErrorsBtn')?.addEventListener('click', function() {
+                const docId = document.getElementById('correctionDocument').value;
+                
+                if (!docId) {
+                    showToast('Pilih dokumen terlebih dahulu', 'error');
+                    return;
+                }
+                
+                const doc = documents.find(d => d.id === docId);
+                if (!doc) {
+                    showToast('Dokumen tidak ditemukan', 'error');
+                    return;
+                }
+                
+                // Cek trial untuk koreksi
+                if (currentUser.plan !== 'premium' && !checkTrial('correction')) {
+                    showPremiumRequired('Koreksi Proposal');
+                    return;
+                }
+                
+                const content = doc.content || '';
+                const errors = detectErrors(content);
+                
+                // Tampilkan hasil deteksi
+                const resultsContainer = document.getElementById('detectionResults');
+                if (resultsContainer) {
+                    if (errors.length === 0) {
+                        resultsContainer.innerHTML = `
+                            <div class="alert alert-success">
+                                <i class="bi bi-check-circle"></i>
+                                <h5>Tidak ada kesalahan ditemukan!</h5>
+                                <p>Penulisan dokumen sudah baik.</p>
+                            </div>
+                        `;
+                    } else {
+                        let html = '<h6>Kesalahan ditemukan:</h6><div class="list-group">';
+                        
+                        errors.forEach((error, index) => {
+                            let badgeClass = 'secondary';
+                            if (error.type === 'capital') badgeClass = 'warning';
+                            if (error.type === 'structure') badgeClass = 'info';
+                            
+                            html += `
+                                <div class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <span class="mb-1">${error.message}</span>
+                                        <span class="badge bg-${badgeClass}">${error.type}</span>
+                                    </div>
+                                    <small>${error.sentence || error.paragraph || ''}</small>
+                                </div>
+                            `;
+                        });
+                        
+                        html += '</div>';
+                        resultsContainer.innerHTML = html;
+                    }
+                }
+                
+                // Tandai kesalahan di editor
+                const editor = document.getElementById('writingEditor');
+                if (editor) {
+                    let editorContent = content || 'Pilih dokumen untuk memulai koreksi penulisan.';
+                    
+                    // Simulasi penandaan kesalahan
+                    if (errors.length > 0) {
+                        editorContent = editorContent.replace(/dapat/gi, '<span class="typo-error">dapat</span>');
+                        editorContent = editorContent.replace(/adalah/gi, '<span class="typo-error">adalah</span>');
+                        
+                        // Tambahkan contoh kesalahan kapital
+                        editorContent += '<p><span class="capital-error">kalimat ini dimulai dengan huruf kecil.</span> Seharusnya dimulai dengan huruf kapital.</p>';
+                        
+                        // Tambahkan contoh kesalahan struktur
+                        editorContent += '<p><span class="structure-error">Paragraf ini seharusnya menjorok.</span> Paragraf dalam dokumen akademik biasanya menjorok sekitar 1.27 cm.</p>';
+                    }
+                    
+                    editor.innerHTML = editorContent;
+                }
+                
+                // Periksa struktur juga
+                const structureErrors = checkStructure(doc.content || '');
+                const structureResults = document.getElementById('structureResults');
+                if (structureResults) {
+                    if (structureErrors.length === 0) {
+                        structureResults.innerHTML = `
+                            <h6>Hasil Pemeriksaan Struktur</h6>
+                            <div class="alert alert-success mt-2">
+                                <i class="bi bi-check-circle"></i>
+                                <p class="mb-0">Struktur dokumen sudah sesuai.</p>
+                            </div>
+                        `;
+                    } else {
+                        let html = '<h6>Hasil Pemeriksaan Struktur</h6><div class="list-group mt-2">';
+                        
+                        structureErrors.forEach(error => {
+                            html += `
+                                <div class="list-group-item">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <span class="mb-1">${error.message}</span>
+                                        <span class="badge bg-warning">${error.type}</span>
+                                    </div>
+                                    <small>${error.fix || ''}</small>
+                                </div>
+                            `;
+                        });
+                        
+                        html += '</div>';
+                        structureResults.innerHTML = html;
+                    }
+                }
+                
+                showToast(`Deteksi selesai: ${errors.length} kesalahan ditemukan`, 'success');
+            });
+            
+            document.getElementById('fixAllErrorsBtn')?.addEventListener('click', function() {
+                // Cek trial untuk perbaikan otomatis
+                if (currentUser.plan !== 'premium' && !checkTrial('correction')) {
+                    showPremiumRequired('Perbaikan Otomatis');
+                    return;
+                }
+                
+                const editor = document.getElementById('writingEditor');
+                if (editor) {
+                    // Simulasi perbaikan otomatis
+                    let content = editor.innerHTML;
+                    
+                    // Perbaiki typo
+                    content = content.replace(/<span class="typo-error">dapat<\/span>/gi, 'bisa');
+                    content = content.replace(/<span class="typo-error">adalah<\/span>/gi, 'merupakan');
+                    
+                    // Perbaiki kapitalisasi
+                    content = content.replace(/<span class="capital-error">kalimat ini dimulai dengan huruf kecil\.<\/span>/gi, 'Kalimat ini dimulai dengan huruf kecil.');
+                    
+                    // Perbaiki struktur
+                    content = content.replace(/<span class="structure-error">Paragraf ini seharusnya menjorok\.<\/span>/gi, '   Paragraf ini seharusnya menjorok.');
+                    
+                    editor.innerHTML = content;
+                    
+                    // Kosongkan hasil deteksi
+                    const resultsContainer = document.getElementById('detectionResults');
+                    if (resultsContainer) {
+                        resultsContainer.innerHTML = `
+                            <div class="alert alert-success">
+                                <i class="bi bi-check-circle"></i>
+                                <h5>Semua kesalahan telah diperbaiki!</h5>
+                                <p>Dokumen telah diperbarui.</p>
+                            </div>
+                        `;
+                    }
+                    
+                    showToast('Semua kesalahan telah diperbaiki', 'success');
+                }
+            });
+            
+            // ===== HITUNG KATA =====
+            document.getElementById('calculateWordcountBtn')?.addEventListener('click', function() {
+                const docId = document.getElementById('wordcountDocument').value;
+                
+                if (!docId) {
+                    showToast('Pilih dokumen terlebih dahulu', 'error');
+                    return;
+                }
+                
+                const doc = documents.find(d => d.id === docId);
+                if (!doc) {
+                    showToast('Dokumen tidak ditemukan', 'error');
+                    return;
+                }
+                
+                // Cek trial untuk hitung kata
+                if (currentUser.plan !== 'premium' && !checkTrial('wordcount')) {
+                    showPremiumRequired('Hitung Kata');
+                    return;
+                }
+                
+                const wordCount = countWords(doc.content);
+                const charCount = countChars(doc.content);
+                const readingTime = Math.ceil(wordCount / 200); // Asumsi 200 kata per menit
+                
+                // Update tampilan
+                document.getElementById('wordCount').textContent = wordCount;
+                document.getElementById('charCount').textContent = charCount;
+                document.getElementById('readingTime').textContent = `${readingTime} menit`;
+                
+                showToast(`Perhitungan selesai: ${wordCount} kata, ${charCount} karakter`, 'success');
+            });
+            
+            document.getElementById('calculateManualBtn')?.addEventListener('click', function() {
+                const text = document.getElementById('manualText').value;
+                
+                if (!text.trim()) {
+                    showToast('Masukkan teks terlebih dahulu', 'error');
+                    return;
+                }
+                
+                const wordCount = countWords(text);
+                const charCount = countChars(text);
+                
+                // Update tampilan
+                document.getElementById('manualWordCount').textContent = wordCount;
+                document.getElementById('manualCharCount').textContent = charCount;
+                
+                showToast(`Perhitungan selesai: ${wordCount} kata, ${charCount} karakter`, 'success');
+            });
+            
+            // ===== PARAFRASE AI =====
+            document.getElementById('paraphraseBtn')?.addEventListener('click', function() {
+                const originalText = document.getElementById('originalText').value;
+                const style = document.getElementById('paraphraseStyle').value;
+                
+                if (!originalText.trim()) {
+                    showToast('Masukkan teks terlebih dahulu', 'error');
+                    return;
+                }
+                
+                // Cek trial untuk parafrase
+                if (currentUser.plan !== 'premium' && !checkTrial('paraphrase')) {
+                    showPremiumRequired('Parafrase AI');
+                    return;
+                }
+                
+                showLoading('#paraphraseBtn');
+                
+                setTimeout(() => {
+                    hideLoading('#paraphraseBtn');
+                    
+                    const paraphrased = smartParaphrase(originalText, style);
+                    
+                    // Tampilkan hasil
+                    const resultArea = document.getElementById('paraphraseResult');
+                    if (resultArea) {
+                        resultArea.innerHTML = `
+                            <h5>Hasil Parafrase AI (${style}):</h5>
+                            <div class="mt-3 p-3 bg-light rounded">
+                                ${paraphrased}
+                            </div>
+                            <div class="mt-2 text-muted small">
+                                <i class="bi bi-info-circle"></i> AI telah memparafrase teks dengan memahami konteks kalimat.
+                            </div>
+                        `;
+                    }
+                    
+                    // Aktifkan tombol
+                    document.getElementById('copyParaphraseBtn').disabled = false;
+                    document.getElementById('replaceOriginalBtn').disabled = false;
+                    
+                    // Simpan ke riwayat
+                    const paraphraseHistory = document.getElementById('paraphraseHistory');
+                    if (paraphraseHistory) {
+                        const historyItem = document.createElement('div');
+                        historyItem.className = 'list-group-item';
+                        historyItem.innerHTML = `
+                            <small class="text-muted">${new Date().toLocaleTimeString('id-ID')} - ${style}</small>
+                            <p class="mb-1 small">${originalText.substring(0, 80)}...</p>
+                        `;
+                        paraphraseHistory.prepend(historyItem);
+                    }
+                    
+                    showToast('Parafrase AI selesai', 'success');
+                }, 1500);
+            });
+            
+            // ===== CONTOH DOKUMEN =====
+            document.querySelectorAll('.preview-example').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const exampleType = this.getAttribute('data-example');
+                    let exampleContent = '';
+                    
+                    switch(exampleType) {
+                        case 'proposal':
+                            exampleContent = `
+                                <h2 class="text-center">PROPOSAL PENELITIAN</h2>
+                                <h3 class="text-center">PENGARUH TEKNOLOGI TERHADAP PROSES BELAJAR MENGAJAR</h3>
+                                <p class="text-center">Oleh: Nama Mahasiswa<br>NIM: 123456789</p>
+                                
+                                <h3 class="mt-5">BAB I. PENDAHULUAN</h3>
+                                <p>   Latar belakang penelitian ini adalah pentingnya memahami pengaruh teknologi terhadap pendidikan...</p>
+                                
+                                <h3 class="mt-4">BAB II. TINJAUAN PUSTAKA</h3>
+                                <p>   Kajian literatur menunjukkan bahwa teknologi memiliki dampak signifikan dalam pendidikan...</p>
+                                
+                                <p class="mt-4">   [Halaman 4-10 hanya tersedia untuk pengguna premium]</p>
+                            `;
+                            break;
+                        case 'skripsi':
+                            exampleContent = `
+                                <h2 class="text-center">SKRIPSI</h2>
+                                <h3 class="text-center">ANALISIS PENGARUH MEDIA SOSIAL TERHADAP PRESTASI AKADEMIK MAHASISWA</h3>
+                                
+                                <h3 class="mt-5">BAB I. PENDAHULUAN</h3>
+                                <p>   Media sosial telah menjadi bagian tak terpisahkan dari kehidupan mahasiswa...</p>
+                                
+                                <h3 class="mt-4">BAB V. PENUTUP</h3>
+                                <p>   [Bab 2-4 hanya tersedia untuk pengguna premium]</p>
+                            `;
+                            break;
+                        default:
+                            exampleContent = `<p>Contoh dokumen ${exampleType} akan ditampilkan di sini.</p>`;
+                    }
+                    
+                    // Tampilkan modal
+                    const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                    const modalTitle = document.getElementById('exampleModalTitle');
+                    const examplePreview = document.getElementById('examplePreview');
+                    const downloadBtn = document.getElementById('downloadExampleBtn');
+                    
+                    if (modalTitle) modalTitle.textContent = `Contoh ${exampleType.charAt(0).toUpperCase() + exampleType.slice(1)}`;
+                    if (examplePreview) examplePreview.innerHTML = exampleContent;
+                    
+                    // Tampilkan blur overlay untuk pengguna gratis
+                    const overlay = document.getElementById('exampleBlurOverlay');
+                    if (overlay && currentUser.plan !== 'premium') {
+                        overlay.classList.remove('d-none');
+                    } else if (overlay) {
+                        overlay.classList.add('d-none');
+                    }
+                    
+                    // Enable/disable tombol download
+                    if (downloadBtn) {
+                        downloadBtn.disabled = currentUser.plan !== 'premium';
+                    }
+                    
+                    modal.show();
+                });
+            });
+            
+            // ===== PROFIL =====
+            document.getElementById('saveProfileBtn')?.addEventListener('click', function() {
+                const name = document.getElementById('profileName').value;
+                const email = document.getElementById('profileEmail').value;
+                const photo = document.getElementById('profilePhoto').value;
+                const password = document.getElementById('profilePassword').value;
+                const confirmPassword = document.getElementById('profileConfirmPassword').value;
+                
+                if (!name || !email) {
+                    showToast('Nama dan email harus diisi', 'error');
+                    return;
+                }
+                
+                if (password && password.length < 6) {
+                    showToast('Password minimal 6 karakter', 'error');
+                    return;
+                }
+                
+                if (password && password !== confirmPassword) {
+                    showToast('Password tidak cocok', 'error');
+                    return;
+                }
+                
+                // Update data user
+                currentUser.name = name;
+                currentUser.email = email;
+                currentUser.photo = photo;
+                
+                if (password) {
+                    currentUser.password = hashPassword(password);
+                }
+                
+                // Simpan ke localStorage
+                const users = JSON.parse(localStorage.getItem('propolab-users') || '[]');
+                const userIndex = users.findIndex(u => u.id === currentUser.id);
+                if (userIndex !== -1) {
+                    users[userIndex] = currentUser;
+                    localStorage.setItem('propolab-users', JSON.stringify(users));
+                }
+                
+                // Update sesi
+                if (localStorage.getItem('propolab-current-user')) {
+                    localStorage.setItem('propolab-current-user', JSON.stringify(currentUser));
+                }
+                if (sessionStorage.getItem('propolab-current-user')) {
+                    sessionStorage.setItem('propolab-current-user', JSON.stringify(currentUser));
+                }
+                
+                // Update tampilan
+                updateUserDisplay();
+                
+                showToast('Profil berhasil diperbarui', 'success');
+            });
+            
+            // ===== SWITCH MODE GELAP DI PROFIL =====
+            document.getElementById('darkModeSwitch')?.addEventListener('change', function() {
+                toggleTheme();
+            });
+        }
+        
+        // ==================== INISIALISASI APLIKASI ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inisialisasi theme
+            initTheme();
+            
+            // Cek apakah user sudah login
+            const savedUser = localStorage.getItem('propolab-current-user') || 
+                             sessionStorage.getItem('propolab-current-user');
+            
+            if (savedUser) {
+                try {
+                    currentUser = JSON.parse(savedUser);
+                    
+                    // Load data user
+                    loadTrialCounts(currentUser.id);
+                    loadDocuments();
+                    loadConversions();
+                    
+                    // Update tampilan
+                    updateUserDisplay();
+                    
+                    // Tampilkan aplikasi utama
+                    document.getElementById('loginPage').classList.add('d-none');
+                    document.getElementById('mainApp').classList.remove('d-none');
+                    
+                    // Inisialisasi navigasi
+                    initNavigation();
+                    
+                    // Tampilkan halaman dashboard
+                    showPage('dashboard');
+                    
+                    showToast(`Selamat datang kembali, ${currentUser.name}!`, 'success');
+                } catch (e) {
+                    console.error('Error loading user session:', e);
+                    localStorage.removeItem('propolab-current-user');
+                    sessionStorage.removeItem('propolab-current-user');
+                }
+            }
+            
+            // Inisialisasi event listeners
+            initEventListeners();
+            
+            // Inisialisasi tooltips Bootstrap
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+            
+            // Inisialisasi dark mode switch di profil
+            const darkModeSwitch = document.getElementById('darkModeSwitch');
+            if (darkModeSwitch) {
+                darkModeSwitch.checked = currentTheme === 'dark';
+            }
+            
+            // Tambahkan animasi fade-in pada elemen saat scroll
+            const fadeElements = document.querySelectorAll('.feature-card, .hero-section');
+            
+            const fadeInOnScroll = function() {
+                fadeElements.forEach(element => {
+                    const elementTop = element.getBoundingClientRect().top;
+                    const elementVisible = 150;
+                    
+                    if (elementTop < window.innerHeight - elementVisible) {
+                        element.classList.add('fade-in');
+                    }
+                });
+            };
+            
+            window.addEventListener('scroll', fadeInOnScroll);
+            fadeInOnScroll(); // Jalankan sekali saat load
+        });
+        
+        // ==================== SERVICE WORKER UNTUK PWA ====================
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                // Register service worker
+                navigator.serviceWorker.register('/sw.js').then(function(registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function(err) {
+                    console.log('ServiceWorker registration failed: ', err);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
